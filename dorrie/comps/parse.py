@@ -101,12 +101,10 @@ def timezones():
     return tuple(choicelist)
 
 
-def kickstart(ks, uploaded, path=settings.KS_DIRS):
+def kickstart(ks):
     """
     return parsed pykickstart object
     """
-    if not uploaded:
-        ks = "%s%s" % (path, ks)
     ksparser = DecoratedKickstartParser(makeVersion())
     ksparser.readKickstart(ks)
     
@@ -118,7 +116,7 @@ def kickstart(ks, uploaded, path=settings.KS_DIRS):
 
 def get_lang_tz(ks):
     """
-    return default language and timezole from base kickstart
+    return default language and timezone from base kickstart
     """
     ksparser = kickstart(ks)
     dict = {}
@@ -127,11 +125,11 @@ def get_lang_tz(ks):
     return dict
 
 
-def default_selected(ks, uploaded):
+def default_selected(ks):
     """
     Return default groups from baseks
     """
-    ksparser = kickstart(ks, uploaded)
+    ksparser = kickstart(ks)
     groups = [group.name for group in ksparser.handler.packages.groupList]
     plus = ksparser.handler.packages.packageList
     minus = ksparser.handler.packages.excludedList
@@ -187,7 +185,7 @@ def build_ks(id):
         os.symlink(settings.CACHE, link)
 
     # get back a pykickstart object of a parsed spin.baseks kickstart file
-    ksparser = kickstart(spin.baseks, spin.uploaded)
+    ksparser = kickstart(spin.baseks)
    
     #change lang, tz
     ksparser.handler.lang.lang = spin.language

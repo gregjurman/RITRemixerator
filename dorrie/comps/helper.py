@@ -25,11 +25,11 @@ def get_spin(id):
     return Spin.objects.get(id=id)
 
 
-def new_spin(name, base_ks, uploaded):
+def new_spin(name, base_ks):
     """
     Return new spin
     """
-    spin = Spin(name=name, baseks=base_ks, uploaded=uploaded)
+    spin = Spin(name=name, baseks=base_ks)
     spin.save()
     return spin
 

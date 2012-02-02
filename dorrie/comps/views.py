@@ -58,11 +58,10 @@ def packages(request):
         return HttpResponseRedirect("/")
     
     # if we hit this, it's because they uploaded their own kickstart file
-    uploaded = False
     if base_ks == 'None':
         base_ks = os.path.join(settings.MEDIA_ROOT, request.FILES['uploaded_kickstart']._name)
-        uploaded = True
-    spin = new_spin(name, base_ks, uploaded)
+
+    spin = new_spin(name, base_ks)
     
     spin_id = spin.id
     language = request.POST.get('select_language')
@@ -73,7 +72,7 @@ def packages(request):
     print spin.uploaded
     spin = add_lang_tz(spin_id, language, timezone)
     print spin.uploaded    
-    selected, plus, minus = default_selected(spin.baseks, spin.uploaded)
+    selected, plus, minus = default_selected(spin.baseks)
     c = get_comps()
     groups = package_listing(c)
     categories = c.get_categories()

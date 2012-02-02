@@ -101,7 +101,7 @@ def timezones():
     return tuple(choicelist)
 
 
-def kickstart(ks, uploaded, path=settings.KS_DIR):
+def kickstart(ks, uploaded, path=settings.KS_DIRS):
     """
     return parsed pykickstart object
     """

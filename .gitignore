@@ -5,4 +5,13 @@ comps*.xml
 dorrie/comps/media/cache
 *.log
 *~
+cache
+data
+build
+*.egg-info
+*.pyc
+*.swp
+dist
+*.egg
+*.db
 dorrie/comps/old/

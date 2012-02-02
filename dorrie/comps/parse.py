@@ -45,18 +45,41 @@ def get_comps():
     return c
     
 
+def walk_ks_dir(directory):
+    """
+    Walks the defined KS_DIRS looking for only .ks files.
+    """
+ 
+    kickstart_files = []
+   
+    # Get the current directory, its internal directories, and files
+    for (path, dirs, files) in os.walk(directory): 
+        for file_name in filter(lambda x:(x.split('.')[-1] == "ks"), files):
+            kickstart_files.append((os.path.abspath(os.path.join(path, file_name)), 
+                                    file_name))
+
+    return kickstart_files
+
 def ls_ks():
     """
-    List files in settings.KS_DIR
+    List files in settings.KS_DIRS
     """
-    ksts = os.listdir(settings.KS_DIR)
+    # If the KS_DIRS is not a list, vomit
+    if not isinstance(settings.KS_DIRS, list):
+        raise ValueError, """Please set KS_DIRS in settings.py as a list
+ of directories containing your kickstart files."""
+
+    ks_files = []
     choicelist = []
-    for kst in ksts:
+
+    for ks_dir in settings.KS_DIRS:
+        ks_files.extend(walk_ks_dir(ks_dir))
+
+    for file_path, file_name in ks_files:
         #if kst.find('_') == -1:
-        ks_tuple = (kst, kst.split('.')[0])
+        ks_tuple = (file_path, file_name.split('.')[0])
         choicelist.append(ks_tuple)
     return tuple(choicelist)
-
 
 def languages():
     """
@@ -78,10 +101,11 @@ def timezones():
     return tuple(choicelist)
 
 
-def kickstart(ks, path=settings.KS_DIR):
+def kickstart(ks, path=settings.KS_DIRS):
     """
     return parsed pykickstart object
     """
+    raise Exception, "herp"
     ks = "%s%s" % (path, ks)
     ksparser = DecoratedKickstartParser(makeVersion())
     ksparser.readKickstart(ks)

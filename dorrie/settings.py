@@ -120,7 +120,8 @@ COMPS_URL = 'http://git.fedorahosted.org/git/?p=comps.git;a=blob_plain;f=comps-f
 #COMPS_URL = 'http://git.fedorahosted.org/git/?p=comps.git;a=blob_plain;\
 #f=comps-f15.xml.in;hb=HEAD'
 
-KS_DIR = '/usr/share/spin-kickstarts/'
+KS_DIRS = ['%s/kickstarts' % APP_ROOT,
+        '/usr/share/spin-kickstarts']
 
 # cache to store the built KS files and spins (Read 'lots of GBs')
 CACHE = '/tmp/'
